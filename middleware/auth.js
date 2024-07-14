@@ -1,23 +1,23 @@
+import dotenv from "dotenv";
+dotenv.config();
+
 import jwt from "jsonwebtoken";
 import { responseTemplate } from "../utils/response.js";
 
-export const tokenValidation = (request, response, next) => {
-  try {
-    let authToken = request.headers.authorization;
-    let accessToken = authToken && authToken.split(" ")[1];
-    console.log(accessToken);
-    jwt.verify(accessToken, accessToken, (error, payload) => {
-      console.log(error);
-      console.log(payload);
-      if (!error) {
-        console.log(payload);
-        request.claims = payload;
-        next();
-      } else {
-        responseTemplate(response, "", "token tidak valid", 401);
-      }
-    });
-  } catch (error) {
-    next(error);
-  }
+const accessToken = process.env.ACCESS_TOKEN;
+
+export const authenticateToken = (req, res, next) => {
+  const authHeader = req.headers["authorization"];
+
+  const token = authHeader && authHeader.split(" ")[1];
+
+  if (token == null)
+    return responseTemplate(res, "", "Token tidak ditemukan", 401);
+
+  jwt.verify(token, accessToken, (err, user) => {
+    if (err) return responseTemplate(res, "", "Token tidak valid", 403);
+
+    req.user = user;
+    next();
+  });
 };
