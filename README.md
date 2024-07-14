@@ -1,6 +1,7 @@
 Implementasi aplikasi point of sales back-end api menggunakan framework express js dan database mysql
 
 steps :
+ 
  == install packages ==
  - npm install express
  - npm install mysql2
