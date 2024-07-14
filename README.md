@@ -9,12 +9,15 @@ steps :
  - npm install jsonwebtoken
  - npm install dotenv
 
+
 == database ==
 - import sql database
+
 
 == postman ==
 - import/sesuaikan collection postman
 - import/sesuaikan env postman
+
 
 == cara menjalankan ==
 - npm start
