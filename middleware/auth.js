@@ -12,10 +12,21 @@ export const authenticateToken = (req, res, next) => {
   const token = authHeader && authHeader.split(" ")[1];
 
   if (token == null)
-    return responseTemplate(res, "", "Token tidak ditemukan", 401);
+    return responseTemplate(
+      res,
+      "",
+      "Token tidak ditemukan. harap login ulang",
+      401
+    );
 
   jwt.verify(token, accessToken, (err, user) => {
-    if (err) return responseTemplate(res, "", "Token tidak valid", 403);
+    if (err)
+      return responseTemplate(
+        res,
+        "",
+        "Token tidak valid. harap login ulang",
+        403
+      );
 
     req.user = user;
     next();
